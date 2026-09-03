@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const siteName  = document.getElementById('siteName');
-  const siteNav   = document.getElementById('siteNav');
+  const siteName = document.getElementById('siteName');
+  const siteNav = document.getElementById('siteNav');
 
-  const NAV_HEIGHT   = 72;
-  const LOGO_SIZE    = 22;
-  const MAX_SCROLL   = 480; // lebih jauh = transisi lebih lambat & smooth
+  const NAV_HEIGHT = 72;
+  const LOGO_SIZE = 22;
+  const MAX_SCROLL = 480; // lebih jauh = transisi lebih lambat & smooth
   // padding kiri saat jadi logo nav — responsif
   function getLeftPadding() {
     return window.innerWidth <= 768 ? 16 : 40;
@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function getGiantSize() {
     const vw = window.innerWidth;
-    if (vw <= 480)  return Math.min(vw * 0.11, 60);   // phone kecil
-    if (vw <= 768)  return Math.min(vw * 0.14, 100);  // phone/tablet
+    if (vw <= 480) return Math.min(vw * 0.11, 60);   // phone kecil
+    if (vw <= 768) return Math.min(vw * 0.14, 100);  // phone/tablet
     return Math.min(vw * 0.185, 240);                  // desktop
   }
 
@@ -25,9 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   let startLeft = 0;
-  let startTop  = 0;
+  let startTop = 0;
   let unitWidth = 0;
-  let marqueeX  = 0;
+  let marqueeX = 0;
 
   function getMarqueeSpeed() {
     const vw = window.innerWidth;
@@ -40,9 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!siteName) return;
     const giantSize = getGiantSize();
 
-    siteName.style.transition  = 'none';
-    siteName.style.fontSize    = giantSize + 'px';
-    siteName.style.transform   = 'translate(0px, 0px)';
+    siteName.style.transition = 'none';
+    siteName.style.fontSize = giantSize + 'px';
+    siteName.style.transform = 'translate(0px, 0px)';
     siteName.style.letterSpacing = '-0.03em';
 
     const items = siteName.querySelectorAll('.giant-item');
@@ -51,12 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const rect1 = items[1].getBoundingClientRect();
       unitWidth = rect1.left - rect0.left;
       startLeft = (window.innerWidth - rect0.width) / 2;
-      startTop  = (window.innerHeight - rect0.height) / 2;
+      startTop = (window.innerHeight - rect0.height) / 2;
     } else {
       const rect = siteName.getBoundingClientRect();
       unitWidth = rect.width + 60;
       startLeft = (window.innerWidth - rect.width) / 2;
-      startTop  = (window.innerHeight - rect.height) / 2;
+      startTop = (window.innerHeight - rect.height) / 2;
     }
   }
 
@@ -64,15 +64,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function lerp(a, b, t) { return a + (b - a) * t; }
 
-  let liveX    = 0;
-  let liveY    = 0;
+  let liveX = 0;
+  let liveY = 0;
   let liveSize = getGiantSize();
-  let liveLS   = -0.03;
+  let liveLS = -0.03;
 
   function animate() {
     const scrollY = window.scrollY;
-    const raw     = Math.min(1, Math.max(0, scrollY / MAX_SCROLL));
-    const t       = ease(raw);
+    const raw = Math.min(1, Math.max(0, scrollY / MAX_SCROLL));
+    const t = ease(raw);
 
     const giantSize = getGiantSize();
 
@@ -82,13 +82,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (unitWidth > 0 && marqueeX <= -unitWidth) {
         marqueeX += unitWidth;
-        liveX    += unitWidth; // snap liveX juga supaya tidak balik ke kanan
+        liveX += unitWidth; // snap liveX juga supaya tidak balik ke kanan
       }
     }
 
     const extraOpacity = Math.max(0, 1 - t * 3);
     const items = siteName.querySelectorAll('.giant-item');
-    const seps  = siteName.querySelectorAll('.giant-sep');
+    const seps = siteName.querySelectorAll('.giant-sep');
 
     seps.forEach(sep => {
       sep.style.opacity = (0.4 * extraOpacity).toString();
@@ -100,17 +100,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const targetSize = giantSize + (LOGO_SIZE - giantSize) * t;
-    const targetX    = lerp(marqueeX, getLeftPadding(), t);
-    const targetY    = startTop  + ((NAV_HEIGHT - LOGO_SIZE) / 2 - startTop) * t;
-    const targetLS   = -0.03 + 0.033 * t;
+    const targetX = lerp(marqueeX, getLeftPadding(), t);
+    const targetY = startTop + ((NAV_HEIGHT - LOGO_SIZE) / 2 - startTop) * t;
+    const targetLS = -0.03 + 0.033 * t;
 
-    liveX    = lerp(liveX,    targetX,    DAMPING);
-    liveY    = lerp(liveY,    targetY,    DAMPING);
+    liveX = lerp(liveX, targetX, DAMPING);
+    liveY = lerp(liveY, targetY, DAMPING);
     liveSize = lerp(liveSize, targetSize, DAMPING);
-    liveLS   = lerp(liveLS,   targetLS,   DAMPING);
+    liveLS = lerp(liveLS, targetLS, DAMPING);
 
-    siteName.style.fontSize      = liveSize + 'px';
-    siteName.style.transform     = `translate(${liveX}px, ${liveY}px)`;
+    siteName.style.fontSize = liveSize + 'px';
+    siteName.style.transform = `translate(${liveX}px, ${liveY}px)`;
     siteName.style.letterSpacing = liveLS + 'em';
 
     if (siteNav) {
@@ -124,17 +124,17 @@ document.addEventListener('DOMContentLoaded', () => {
     measureCenter();
     if (window.scrollY === 0) {
       marqueeX = startLeft;
-      liveX    = startLeft;
+      liveX = startLeft;
     }
   });
 
   function start() {
     measureCenter();
     marqueeX = startLeft;
-    liveX    = startLeft;
-    liveY    = startTop;
+    liveX = startLeft;
+    liveY = startTop;
     liveSize = getGiantSize();
-    liveLS   = -0.03;
+    liveLS = -0.03;
 
     if (!prefersReducedMotion) {
       animate();
@@ -229,4 +229,106 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  const projectCards = document.querySelectorAll('.project-item[data-modal-target]');
+  const modalBackdrops = document.querySelectorAll('.project-modal-backdrop');
+  let activeModal = null;
+  let lastActiveElement = null;
+
+  function openModal(modalId, triggerElement) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    activeModal = modal;
+    lastActiveElement = triggerElement;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (focusable.length > 0) {
+      focusable[0].focus();
+    }
+  }
+
+  function closeModal() {
+    if (!activeModal) return;
+    activeModal.classList.remove('is-open');
+    activeModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+
+    if (lastActiveElement && typeof lastActiveElement.focus === 'function') {
+      lastActiveElement.focus();
+    }
+    activeModal = null;
+    lastActiveElement = null;
+  }
+
+  projectCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.project-links')) {
+        return;
+      }
+      const targetId = card.getAttribute('data-modal-target');
+      if (targetId) {
+        openModal(targetId, card);
+      }
+    });
+
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        if (e.target.closest('.project-links')) {
+          return;
+        }
+        e.preventDefault();
+        const targetId = card.getAttribute('data-modal-target');
+        if (targetId) {
+          openModal(targetId, card);
+        }
+      }
+    });
+  });
+
+  modalBackdrops.forEach(backdrop => {
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) {
+        closeModal();
+      }
+    });
+
+    const closeBtn = backdrop.querySelector('.project-modal-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        closeModal();
+      });
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!activeModal) return;
+
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      closeModal();
+      return;
+    }
+
+    if (e.key === 'Tab') {
+      const focusables = activeModal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (focusables.length === 0) return;
+      const firstFocusable = focusables[0];
+      const lastFocusable = focusables[focusables.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstFocusable) {
+          e.preventDefault();
+          lastFocusable.focus();
+        }
+      } else {
+        if (document.activeElement === lastFocusable) {
+          e.preventDefault();
+          firstFocusable.focus();
+        }
+      }
+    }
+  });
 });
