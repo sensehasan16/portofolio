@@ -23,18 +23,21 @@
     <rect width="100%" height="100%" filter="url(#noiseFilter)" />
   </svg>
 
+  <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#layanan" class="nav-link">Learning</a></li>
+    <li><a href="#proyek" class="nav-link">Projects</a></li>
+    <li><a href="#skill" class="nav-link">Skills</a></li>
+    <li><a href="#kontak" class="nav-link">Contact</a></li>
+  </ul>
+
   <nav class="site-nav" id="siteNav">
     <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">
       <span></span>
       <span></span>
       <span></span>
     </button>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#layanan" class="nav-link">Learning</a></li>
-      <li><a href="#proyek" class="nav-link">Projects</a></li>
-      <li><a href="#skill" class="nav-link">Skills</a></li>
-      <li><a href="#kontak" class="nav-link">Contact</a></li>
-    </ul>
   </nav>
 
   <a href="#hero" class="site-name" id="siteName">
@@ -191,16 +194,16 @@
 
   <section id="proyek" class="section">
     <div class="container">
-      <div class="projects-header text-center reveal">
-        <span class="tag-handwritten">Coursework & Practice Projects</span>
-        <h2 class="projects-title">PROJECTS FROM COLLEGE</h2>
+      <div class="projects-header reveal">
+        <span class="tag-handwritten">Coursework &amp; Practice Projects</span>
+        <h2 class="projects-title" data-i18n-project="sectionTitle">PROYEK DARI KULIAH</h2>
       </div>
 
       <div class="projects-grid">
         <div class="project-item reveal" data-modal-target="modal-mau-run" role="button" tabindex="0"
           aria-haspopup="dialog" aria-label="Website Lari — Mau Run details">
           <div class="project-image-wrapper">
-            <img src="assets/images/weblari.png" alt="Mockup Dashboard Website Lari PACE" class="project-image">
+            <img src="assets/images/website_lari3.png" alt="Mockup Dashboard Website Lari PACE" class="project-image">
             <span class="project-hover-badge">Click for details</span>
           </div>
           <div class="project-meta">
@@ -221,15 +224,14 @@
                 </span>
               </div>
             </div>
-            <p class="project-card-desc">Helps users discover and register for running events across Indonesia, complete
-              with an admin dashboard to manage events and participants.</p>
+            <p class="project-card-desc" data-i18n-project="maurun_card_desc">Bantu orang cari &amp; daftar event lari di seluruh Indonesia, lengkap sama dashboard admin buat ngatur event dan peserta.</p>
           </div>
         </div>
 
         <div class="project-item reveal" data-modal-target="modal-klinik" role="button" tabindex="0"
           aria-haspopup="dialog" aria-label="Klinik Kesehatan Admin Panel details">
           <div class="project-image-wrapper">
-            <img src="assets/images/kelinik.png" alt="Mockup Admin Panel Klinik Kesehatan" class="project-image">
+            <img src="assets/images/k1.png" alt="Mockup Admin Panel Klinik Kesehatan" class="project-image">
             <span class="project-hover-badge">Click for details</span>
           </div>
           <div class="project-meta">
@@ -250,8 +252,7 @@
                 </span>
               </div>
             </div>
-            <p class="project-card-desc">An administrative dashboard designed to manage doctor records, patient data,
-              and clinical examination results.</p>
+            <p class="project-card-desc" data-i18n-project="klinik_card_desc">Dashboard admin buat ngatur data dokter, pasien, dan hasil pengecekan pasien.</p>
           </div>
         </div>
 
@@ -290,8 +291,7 @@
                 </span>
               </div>
             </div>
-            <p class="project-card-desc">A dietary planning app that enables users to customize daily calorie targets to
-              support specific health needs, such as low-sugar diets.</p>
+            <p class="project-card-desc" data-i18n-project="sidifood_card_desc">Aplikasi bantu atur pola makan — user bisa pilih target kalori harian sesuai kebutuhan, misalnya buat diet gula.</p>
           </div>
         </div>
       </div>
@@ -301,30 +301,28 @@
       aria-labelledby="title-mau-run" aria-hidden="true">
       <div class="project-modal-box">
         <button type="button" class="project-modal-close" aria-label="Close modal">&times;</button>
-        <div class="project-modal-media">
-          <img src="assets/images/weblari.png" alt="Website Lari — Mau Run preview" class="project-modal-img">
+        <div class="project-modal-media project-modal-slider" id="slider-mau-run" data-project-slider="websiteLari">
+          <!-- Slide track, counter, kontrol navigasi, dan dot indicator di-generate secara dinamis oleh JavaScript -->
         </div>
         <div class="project-modal-body">
           <div class="project-modal-header">
-            <span class="project-modal-badge">College Project 2026</span>
+            <div class="project-modal-header-top">
+              <span class="project-modal-badge">College Project 2026</span>
+              <!-- Toggle ID/EN di dalam modal -->
+              <div class="project-lang-toggle" role="group" aria-label="Pilih bahasa">
+                <button class="plang-btn active" data-lang="id" aria-pressed="true">ID</button>
+                <span class="plang-divider" aria-hidden="true"></span>
+                <button class="plang-btn" data-lang="en" aria-pressed="false">EN</button>
+              </div>
+            </div>
             <h3 id="title-mau-run" class="project-modal-title">Website Lari &ldquo;Mau Run&rdquo;</h3>
           </div>
-          <p class="project-modal-desc">
-            I originally started building this project because I noticed how difficult it was for runners in Indonesia
-            to find upcoming marathon and running events across scattered channels. The landing page is designed to make
-            searching and registering for races as effortless as possible. In addition, I created a dedicated admin
-            dashboard where organizers can publish new events, monitor participant sign-ups, and manage essential master
-            data such as race categories and host cities.
+          <p class="project-modal-desc" data-i18n-project="maurun_modal_desc">
+            Awalnya project ini saya buat karena pengen bikin sesuatu yang beneran bisa dipakai, bukan cuma tugas biasa. Fokus utamanya di landing page — biar orang gampang nemuin dan daftar event lari yang ada di seluruh Indonesia, dari fun run sampai marathon. Di sisi admin, saya bikin dashboard yang bisa dipakai buat ngatur event dan peserta, termasuk bikin event baru dan ngelola beberapa master data (kategori event, kota, dll).
           </p>
           <div class="project-modal-section">
-            <h4 class="project-modal-subtitle">My Role</h4>
-            <ul class="project-modal-list">
-              <li>Built the entire user-facing landing page from scratch</li>
-              <li>Designed the relational database structure for events, participants, and master data</li>
-              <li>Engineered the admin dashboard for managing races and registered participants</li>
-              <li>Integrated Midtrans payment gateway for registration checkouts (in SANDBOX / testing mode for
-                demonstration, not yet live in production)</li>
-            </ul>
+            <h4 class="project-modal-subtitle" data-i18n-project="label_my_role">Peran Saya</h4>
+            <ul class="project-modal-list" data-i18n-project="maurun_modal_role"><li>bikin landing page dari nol</li><li>rancang struktur database buat event, peserta, dan master data pendukung</li><li>bangun dashboard admin buat kelola event &amp; peserta</li><li>integrasi Midtrans buat pembayaran pendaftaran (masih sandbox/uji coba, belum production)</li></ul>
           </div>
           <div class="project-modal-section">
             <h4 class="project-modal-subtitle">Tech Stack</h4>
@@ -345,7 +343,7 @@
                   d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
                 </path>
               </svg>
-              <span>View Code on GitHub</span>
+              <span data-i18n-project="btn_github">Lihat Kode di GitHub</span>
             </a>
           </div>
         </div>
@@ -356,35 +354,28 @@
       aria-hidden="true">
       <div class="project-modal-box">
         <button type="button" class="project-modal-close" aria-label="Close modal">&times;</button>
-        <div class="project-modal-media">
-          <img src="assets/images/kelinik.png" alt="Klinik Kesehatan Admin Panel preview" class="project-modal-img">
+        <div class="project-modal-media project-modal-slider" id="slider-klinik" data-project-slider="klinikKesehatan">
+          <!-- Slide track, counter, kontrol navigasi, dan dot indicator di-generate secara dinamis oleh JavaScript -->
         </div>
         <div class="project-modal-body">
           <div class="project-modal-header">
-            <span class="project-modal-badge">College Project 2026</span>
+            <div class="project-modal-header-top">
+              <span class="project-modal-badge">College Project 2026</span>
+              <!-- Toggle ID/EN di dalam modal -->
+              <div class="project-lang-toggle" role="group" aria-label="Pilih bahasa">
+                <button class="plang-btn active" data-lang="id" aria-pressed="true">ID</button>
+                <span class="plang-divider" aria-hidden="true"></span>
+                <button class="plang-btn" data-lang="en" aria-pressed="false">EN</button>
+              </div>
+            </div>
             <h3 id="title-klinik" class="project-modal-title">Klinik Kesehatan (Admin Panel)</h3>
           </div>
-          <p class="project-modal-desc">
-            This project was developed purely as an internal administrative dashboard for clinic operators, without a
-            separate patient-facing login portal. Its purpose is to streamline clinic operations by providing
-            administrative staff with a centralized space to manage doctor schedules, maintain patient records, and
-            organize clinical examination results.
+          <p class="project-modal-desc" data-i18n-project="klinik_modal_desc">
+            Ini murni dashboard admin (nggak ada login pasien terpisah), dipakai buat ngatur data dokter, data pasien, dan data hasil pengecekan/pemeriksaan pasien.
           </p>
           <div class="project-modal-section">
-            <h4 class="project-modal-subtitle">My Role</h4>
-            <ul class="project-modal-list">
-              <li>Designed the relational database schema across three core modules (doctors, patients, and clinical
-                examinations)</li>
-              <li>Built the admin dashboard featuring statistical overviews such as total registered patients and total
-                examinations completed</li>
-              <li>Created structured data tables displaying active doctor assignments and clinical examination statuses
-              </li>
-            </ul>
-          </div>
-          <div class="project-modal-section project-modal-upcoming">
-            <h4 class="project-modal-subtitle">Upcoming Features</h4>
-            <p class="upcoming-desc">Patient medical history &mdash; to review and track diagnostic histories and
-              examination results over time.</p>
+            <h4 class="project-modal-subtitle" data-i18n-project="label_my_role">Peran Saya</h4>
+            <ul class="project-modal-list" data-i18n-project="klinik_modal_role"><li>rancang struktur database untuk 3 modul (dokter, pasien, pemeriksaan)</li><li>bangun dashboard dengan ringkasan statistik</li><li>buat tabel data dokter aktif dan status pemeriksaan</li></ul>
           </div>
           <div class="project-modal-section">
             <h4 class="project-modal-subtitle">Tech Stack</h4>
@@ -402,7 +393,7 @@
                   d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
                 </path>
               </svg>
-              <span>View Code on GitHub</span>
+              <span data-i18n-project="btn_github">Lihat Kode di GitHub</span>
             </a>
           </div>
         </div>
@@ -418,22 +409,23 @@
         </div>
         <div class="project-modal-body">
           <div class="project-modal-header">
-            <span class="project-modal-badge">Personal Project 2026</span>
+            <div class="project-modal-header-top">
+              <span class="project-modal-badge">Personal Project 2026</span>
+              <!-- Toggle ID/EN di dalam modal -->
+              <div class="project-lang-toggle" role="group" aria-label="Pilih bahasa">
+                <button class="plang-btn active" data-lang="id" aria-pressed="true">ID</button>
+                <span class="plang-divider" aria-hidden="true"></span>
+                <button class="plang-btn" data-lang="en" aria-pressed="false">EN</button>
+              </div>
+            </div>
             <h3 id="title-sidifood" class="project-modal-title">SiDiFood</h3>
           </div>
-          <p class="project-modal-desc">
-            SiDiFood is a mobile application I created to help people take control of their eating habits and easily
-            choose healthier meals. Users can configure a custom daily calorie target suited to their personal wellness
-            needs, and benefit from preset calorie options designed for specific dietary goals such as sugar-conscious
-            and diabetic-friendly diets.
+          <p class="project-modal-desc" data-i18n-project="sidifood_modal_desc">
+            Aplikasi buat bantu user atur pola makan biar bisa pilih makanan yang sehat. User bisa pilih target kalori harian sesuai kebutuhan, dan disediakan beberapa preset pilihan kalori harian, misalnya buat diet gula.
           </p>
           <div class="project-modal-section">
-            <h4 class="project-modal-subtitle">My Role</h4>
-            <ul class="project-modal-list">
-              <li>Designed and built the mobile app user interface using Flutter</li>
-              <li>Engineered the backend REST API with PHP for user data and calorie options</li>
-              <li>Architected the daily calorie target selection flow and user preferences</li>
-            </ul>
+            <h4 class="project-modal-subtitle" data-i18n-project="label_my_role">Peran Saya</h4>
+            <ul class="project-modal-list" data-i18n-project="sidifood_modal_role"><li>desain &amp; bangun UI aplikasi mobile dengan Flutter</li><li>bangun backend API dengan PHP untuk data user dan pilihan kalori</li><li>rancang alur pemilihan target kalori harian</li></ul>
           </div>
           <div class="project-modal-section">
             <h4 class="project-modal-subtitle">Tech Stack</h4>
@@ -451,7 +443,7 @@
                   d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
                 </path>
               </svg>
-              <span>View Code on GitHub</span>
+              <span data-i18n-project="btn_github">Lihat Kode di GitHub</span>
             </a>
           </div>
         </div>
