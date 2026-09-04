@@ -100,7 +100,6 @@ body {
 }
 
 .nav-links {
-  /* Desktop: tampil di nav bar */
   position: fixed;
   top: 0;
   right: 2.5rem;
@@ -114,7 +113,6 @@ body {
   z-index: 1000;
 }
 
-/* Saat belum scroll — tampilkan links tersebar di seluruh lebar */
 .nav-links.spread {
   left: 2.5rem;
   right: 2.5rem;
@@ -462,7 +460,6 @@ body {
   text-transform: uppercase;
 }
 
-/* ── Toggle bahasa di dalam kartu proyek ─────────────────────── */
 .project-lang-toggle {
   display: inline-flex;
   align-items: center;
@@ -504,7 +501,6 @@ body {
   background: var(--border-color);
   flex-shrink: 0;
 }
-
 
 .projects-grid {
   display: grid;
@@ -785,9 +781,6 @@ body {
   display: block;
 }
 
-/* ==========================================================================
-   Project Modal Slider (Carousel Foto)
-   ========================================================================== */
 .project-modal-media.project-modal-slider {
   aspect-ratio: auto;
   height: 480px;
@@ -817,7 +810,6 @@ body {
   scroll-behavior: smooth;
 }
 
-/* Scrollbar halus untuk screenshot panjang */
 .slider-slide::-webkit-scrollbar {
   width: 6px;
 }
@@ -844,7 +836,6 @@ body {
   object-position: top;
 }
 
-/* Visual cue: gradient & badge halus petunjuk scroll vertikal */
 .slider-scroll-cue {
   position: absolute;
   bottom: 0;
@@ -892,7 +883,6 @@ body {
   }
 }
 
-/* Counter angka di pojok kiri atas (agar tidak menghalangi tombol close X) */
 .slider-counter {
   position: absolute;
   top: 14px;
@@ -913,7 +903,6 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-/* Tombol panah kiri & kanan */
 .slider-btn {
   position: absolute;
   top: 50%;
@@ -970,7 +959,6 @@ body {
   right: 12px;
 }
 
-/* Desktop hover: tombol panah muncul saat slider di-hover */
 @media (hover: hover) and (min-width: 769px) {
   .slider-btn {
     opacity: 0;
@@ -982,7 +970,6 @@ body {
   }
 }
 
-/* Mobile & Touch: tombol panah TETAP tampil (visible) sebagai opsi selain swipe */
 @media (hover: none), (max-width: 768px) {
   .slider-btn {
     opacity: 1;
@@ -998,7 +985,6 @@ body {
   }
 }
 
-/* Dot indicator di bawah gambar */
 .slider-dots {
   position: absolute;
   bottom: 12px;
@@ -1043,7 +1029,6 @@ body {
   outline-offset: 2px;
 }
 
-/* Fallback placeholder jika gambar belum tersedia */
 .slider-placeholder-fallback {
   width: 100%;
   height: 100%;
@@ -1096,7 +1081,6 @@ body {
   gap: 0.5rem;
 }
 
-/* Badge + toggle sejajar dalam satu baris */
 .project-modal-header-top {
   display: flex;
   align-items: center;
@@ -1566,7 +1550,6 @@ body {
   transform: translateY(0);
 }
 
-/* stagger reveal untuk grid — anak ke-2 sedikit delay */
 .services-grid .service-card.reveal.visible:nth-child(2) {
   transition-delay: 0.1s;
 }
@@ -1615,7 +1598,6 @@ body {
   }
 }
 
-/* ── Mobile nav — full screen overlay ─────────────────────── */
 .mobile-nav-overlay {
   display: none;
   position: fixed;
@@ -1643,7 +1625,6 @@ body {
     padding: 0 1rem;
   }
 
-  /* Menu full-width dari atas, tinggi menyesuaikan isi */
   .nav-links {
     position: fixed !important;
     top: 0 !important;
@@ -1706,7 +1687,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* sembunyikan dulu — muncul setelah nama pindah ke pojok */
+
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.4s ease;
@@ -1758,13 +1739,11 @@ body {
     font-size: 1.2rem;
   }
 
-  /* Prevent body from scrolling sideways due to marquee */
   body {
     overflow-x: hidden;
   }
 }
 
-/* ── Extra small phones (< 480px) ────────────────────────────── */
 @media (max-width: 480px) {
   :root {
     --section-padding: clamp(50px, 10vw, 80px);
@@ -1805,7 +1784,7 @@ body {
   }
 
   .repo-label {
-    display: none; /* hide text label on tiny screens, keep icon */
+    display: none;
   }
 
   .social-links {
@@ -1818,7 +1797,6 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   *,
   ::before,
   ::after {
@@ -1840,7 +1818,6 @@ body {
   }
 }
 
-/* SIDIFOOD — dual repo labels */
 .project-icon-link {
   display: inline-flex;
   align-items: center;

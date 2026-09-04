@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return Math.min(vw * 0.185, 240);
   }
 
-  // expo-out: mulai cepat, melambat mulus di akhir
   function ease(raw) {
     return raw === 0 ? 0 : 1 - Math.pow(2, -10 * raw);
   }
@@ -30,9 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function getMarqueeSpeed() {
     const vw = window.innerWidth;
-    if (vw <= 480) return 0.7;   // HP kecil — lebih pelan supaya nyaman
-    if (vw <= 768) return 1.0;   // tablet
-    return 1.2;                   // desktop
+    if (vw <= 480) return 0.7;
+    if (vw <= 768) return 1.0;
+    return 1.2;
   }
 
   function measureCenter() {
@@ -59,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  const DAMPING = 0.055; // lebih rendah = lerp lebih lambat & smooth
+  const DAMPING = 0.055;
 
   function lerp(a, b, t) { return a + (b - a) * t; }
 
@@ -81,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (unitWidth > 0 && marqueeX <= -unitWidth) {
         marqueeX += unitWidth;
-        liveX += unitWidth; // snap liveX juga supaya tidak balik ke kanan
+        liveX += unitWidth;
       }
     }
 
@@ -201,14 +200,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Tutup menu saat klik overlay
     if (mobileNavOverlay) {
       mobileNavOverlay.addEventListener('click', () => {
         closeMobileNav();
       });
     }
 
-    // Tutup menu saat tekan Escape
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && navLinksContainer.classList.contains('active')) {
         closeMobileNav();
@@ -264,13 +261,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ── Data Gambar Slider Proyek ──────────────────────────────────────────
-  /**
-   * Data gambar untuk slider modal proyek.
-   * Format generic siap dipakai ulang untuk proyek lain (klinikKesehatan, sidiFood) nanti.
-   * Berapa pun jumlah foto di array ini, slider otomatis menyesuaikan dot indicator,
-   * counter angka, dan loop navigasi tanpa perlu edit kode lain.
-   */
   const projectImages = {
     websiteLari: [
       { src: "assets/images/website_lari 3.png", alt: "Dashboard Admin" },
@@ -293,13 +283,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   };
 
-  // Map untuk menyimpan instance slider per modal
   const sliderInstances = new Map();
 
-  /**
-   * Fungsi generic inisialisasi slider foto.
-   * Dapat dipanggil untuk modal proyek mana pun dengan menyediakan container & array gambar.
-   */
   function initProjectSlider(containerEl, images) {
     if (!containerEl || !Array.isArray(images) || images.length === 0) return null;
 
@@ -307,11 +292,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalSlides = images.length;
     let currentIndex = 0;
 
-    // Track pembungkus semua slide
     const track = document.createElement('div');
     track.className = 'slider-track';
 
-    // Slide items
     const slides = images.map((imgData, index) => {
       const slide = document.createElement('div');
       slide.className = 'slider-slide';
@@ -321,26 +304,25 @@ document.addEventListener('DOMContentLoaded', () => {
       img.src = imgData.src;
       img.alt = imgData.alt || `Screenshot ${index + 1}`;
       img.className = 'slider-img';
-      // loading lazy untuk semua slide kecuali yang pertama
+
       if (index > 0) {
         img.loading = 'lazy';
       }
 
-      // Fallback cerdas jika gambar belum ada atau beda format penamaan
       img.addEventListener('error', function () {
         if (!this.dataset.fallbackTried) {
           this.dataset.fallbackTried = 'true';
-          // Coba tanpa spasi jika ada spasi
+
           if (this.src.includes('%20') || this.src.includes(' ')) {
             this.src = this.src.replace(/%20/g, '').replace(/ /g, '');
             return;
           } else if (/website_lari\d+\.png$/i.test(this.src)) {
-            // Coba dengan spasi sebelum angka
+
             this.src = this.src.replace(/(website_lari)(\d+)\.png$/i, '$1 $2.png');
             return;
           }
         }
-        // Jika file memang belum ada (misal placeholder custom), render kartu placeholder yang rapi
+
         if (!slide.querySelector('.slider-placeholder-fallback')) {
           this.style.display = 'none';
           const fallback = document.createElement('div');
@@ -360,7 +342,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
-      // Visual cue halus di bagian bawah: gradient + icon petunjuk scroll vertikal
       const cue = document.createElement('div');
       cue.className = 'slider-scroll-cue';
       cue.innerHTML = `
@@ -372,7 +353,6 @@ document.addEventListener('DOMContentLoaded', () => {
         </span>
       `;
 
-      // Sembunyikan visual cue saat user mulai scroll ke bawah di dalam slide
       slide.addEventListener('scroll', () => {
         if (slide.scrollTop > 25) {
           cue.classList.add('is-hidden');
@@ -387,13 +367,11 @@ document.addEventListener('DOMContentLoaded', () => {
       return slide;
     });
 
-    // Counter angka di pojok kanan atas: "1 / N"
     const counter = document.createElement('div');
     counter.className = 'slider-counter';
     counter.setAttribute('aria-live', 'polite');
     counter.textContent = `1 / ${totalSlides}`;
 
-    // Tombol navigasi panah kiri & kanan
     const prevBtn = document.createElement('button');
     prevBtn.type = 'button';
     prevBtn.className = 'slider-btn slider-btn-prev';
@@ -414,7 +392,6 @@ document.addEventListener('DOMContentLoaded', () => {
       </svg>
     `;
 
-    // Dot indicators di bawah gambar
     const dotsContainer = document.createElement('div');
     dotsContainer.className = 'slider-dots';
     dotsContainer.setAttribute('role', 'tablist');
@@ -452,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function goToSlide(index) {
-      // Loop navigasi otomatis
+
       currentIndex = (index + totalSlides) % totalSlides;
       updateUI();
     }
@@ -475,7 +452,6 @@ document.addEventListener('DOMContentLoaded', () => {
       nextSlide();
     });
 
-    // Reset ke slide 0 dan kembalikan scroll vertikal slide ke paling atas
     function reset() {
       currentIndex = 0;
       updateUI();
@@ -486,10 +462,9 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Touch gesture: membedakan scroll vertikal screenshot vs swipe horizontal slide
     let touchStartX = 0;
     let touchStartY = 0;
-    let isHorizontalSwipe = null; // null = belum ditentukan, true = swipe horizontal, false = scroll vertikal
+    let isHorizontalSwipe = null;
 
     containerEl.addEventListener('touchstart', (e) => {
       if (e.touches.length !== 1) return;
@@ -506,19 +481,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const deltaY = currentY - touchStartY;
 
       if (isHorizontalSwipe === null) {
-        // Tentukan arah gesture jika pergerakan sudah lebih dari 8px
+
         if (Math.abs(deltaX) > 8 || Math.abs(deltaY) > 8) {
           isHorizontalSwipe = Math.abs(deltaX) > Math.abs(deltaY);
         }
       }
 
-      // Jika gesture dominan horizontal, cegah scrolling vertikal browser
       if (isHorizontalSwipe === true) {
         if (e.cancelable) {
           e.preventDefault();
         }
       }
-      // Jika dominan vertikal (isHorizontalSwipe === false), biarkan native scrolling slide bekerja tanpa preventDefault
+
     }, { passive: false });
 
     containerEl.addEventListener('touchend', (e) => {
@@ -546,7 +520,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
-  // Inisialisasi semua slider yang memiliki data-project-slider
   document.querySelectorAll('.project-modal-slider[data-project-slider]').forEach(sliderEl => {
     const projectKey = sliderEl.getAttribute('data-project-slider');
     const images = projectImages[projectKey];
@@ -571,7 +544,6 @@ document.addEventListener('DOMContentLoaded', () => {
     activeModal = modal;
     lastActiveElement = triggerElement;
 
-    // Reset slider jika modal ini memiliki slider
     if (sliderInstances.has(modalId)) {
       sliderInstances.get(modalId).reset();
     }
@@ -589,7 +561,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeModal() {
     if (!activeModal) return;
 
-    // Reset slider sebelum menutup modal
     if (sliderInstances.has(activeModal.id)) {
       sliderInstances.get(activeModal.id).reset();
     }
@@ -654,7 +625,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Tombol panah kiri / kanan keyboard untuk navigasi slider saat modal aktif
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
       const slider = sliderInstances.get(activeModal.id);
       if (slider) {
@@ -688,17 +658,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ── Sistem terjemahan khusus section Proyek ───────────────────────────
   const projectTranslations = {
     id: {
-      // Kartu
+
       maurun_card_desc: 'Bantu orang cari & daftar event lari di seluruh Indonesia, lengkap sama dashboard admin buat ngatur event dan peserta.',
       klinik_card_desc: 'Dashboard admin buat ngatur data dokter, pasien, dan hasil pengecekan pasien.',
       sidifood_card_desc: 'Aplikasi bantu atur pola makan — user bisa pilih target kalori harian sesuai kebutuhan, misalnya buat diet gula.',
-      // Label umum
+
       label_my_role: 'Peran Saya',
       btn_github: 'Lihat Kode di GitHub',
-      // Modal Mau Run
+
       maurun_modal_desc: 'Awalnya project ini saya buat karena pengen bikin sesuatu yang beneran bisa dipakai, bukan cuma tugas biasa. Fokus utamanya di landing page — biar orang gampang nemuin dan daftar event lari yang ada di seluruh Indonesia, dari fun run sampai marathon. Di sisi admin, saya bikin dashboard yang bisa dipakai buat ngatur event dan peserta, termasuk bikin event baru dan ngelola beberapa master data (kategori event, kota, dll).',
       maurun_modal_role: [
         'bikin landing page dari nol',
@@ -706,14 +675,14 @@ document.addEventListener('DOMContentLoaded', () => {
         'bangun dashboard admin buat kelola event & peserta',
         'integrasi Midtrans buat pembayaran pendaftaran (masih sandbox/uji coba, belum production)',
       ],
-      // Modal Klinik
+
       klinik_modal_desc: 'Ini murni dashboard admin (nggak ada login pasien terpisah), dipakai buat ngatur data dokter, data pasien, dan data hasil pengecekan/pemeriksaan pasien.',
       klinik_modal_role: [
         'rancang struktur database untuk 3 modul (dokter, pasien, pemeriksaan)',
         'bangun dashboard dengan ringkasan statistik',
         'buat tabel data dokter aktif dan status pemeriksaan',
       ],
-      // Modal SiDiFood
+
       sidifood_modal_desc: 'Aplikasi buat bantu user atur pola makan biar bisa pilih makanan yang sehat. User bisa pilih target kalori harian sesuai kebutuhan, dan disediakan beberapa preset pilihan kalori harian, misalnya buat diet gula.',
       sidifood_modal_role: [
         'desain & bangun UI aplikasi mobile dengan Flutter',
@@ -722,15 +691,13 @@ document.addEventListener('DOMContentLoaded', () => {
       ],
     },
     en: {
-      sectionTitle: 'PROJECTS FROM COLLEGE',
-      // Cards
       maurun_card_desc: 'Helps users discover and register for running events across Indonesia, complete with an admin dashboard to manage events and participants.',
       klinik_card_desc: 'An administrative dashboard designed to manage doctor records, patient data, and clinical examination results.',
       sidifood_card_desc: 'A dietary planning app that enables users to customize daily calorie targets to support specific health needs, such as low-sugar diets.',
-      // Common labels
+
       label_my_role: 'My Role',
       btn_github: 'View Code on GitHub',
-      // Modal Mau Run
+
       maurun_modal_desc: 'I originally started building this project because I noticed how difficult it was for runners in Indonesia to find upcoming marathon and running events across scattered channels. The landing page is designed to make searching and registering for races as effortless as possible. In addition, I created a dedicated admin dashboard where organizers can publish new events, monitor participant sign-ups, and manage essential master data such as race categories and host cities.',
       maurun_modal_role: [
         'Built the entire user-facing landing page from scratch',
@@ -738,14 +705,14 @@ document.addEventListener('DOMContentLoaded', () => {
         'Engineered the admin dashboard for managing races and registered participants',
         'Integrated Midtrans payment gateway for registration checkouts (in SANDBOX / testing mode for demonstration, not yet live in production)',
       ],
-      // Modal Klinik
+
       klinik_modal_desc: 'This project was developed purely as an internal administrative dashboard for clinic operators, without a separate patient-facing login portal. Its purpose is to streamline clinic operations by providing administrative staff with a centralized space to manage doctor schedules, maintain patient records, and organize clinical examination results.',
       klinik_modal_role: [
         'Designed the relational database schema across three core modules (doctors, patients, and clinical examinations)',
         'Built the admin dashboard featuring statistical overviews such as total registered patients and total examinations completed',
         'Created structured data tables displaying active doctor assignments and clinical examination statuses',
       ],
-      // Modal SiDiFood
+
       sidifood_modal_desc: 'SiDiFood is a mobile application I created to help people take control of their eating habits and easily choose healthier meals. Users can configure a custom daily calorie target suited to their personal wellness needs, and benefit from preset calorie options designed for specific dietary goals such as sugar-conscious and diabetic-friendly diets.',
       sidifood_modal_role: [
         'Designed and built the mobile app user interface using Flutter',
@@ -755,11 +722,6 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   };
 
-  /**
-   * Mengganti teks elemen yang punya atribut data-i18n-project.
-   * Untuk key dengan value array (role list), innerHTML di-rebuild sebagai <li> list.
-   * HANYA menyentuh elemen dalam section proyek — tidak ada efek ke section lain.
-   */
   function setProjectLang(lang) {
     const dict = projectTranslations[lang];
     if (!dict) return;
@@ -770,34 +732,30 @@ document.addEventListener('DOMContentLoaded', () => {
       if (value === undefined) return;
 
       if (Array.isArray(value)) {
-        // Rebuild list items
+
         el.innerHTML = value.map(item => `<li>${item}</li>`).join('');
       } else {
         el.textContent = value;
       }
     });
 
-    // Update aria-pressed dan class active pada tombol toggle
     document.querySelectorAll('.plang-btn').forEach(btn => {
       const isActive = btn.dataset.lang === lang;
       btn.classList.toggle('active', isActive);
       btn.setAttribute('aria-pressed', String(isActive));
     });
 
-    // Simpan pilihan ke localStorage
     localStorage.setItem('project-lang', lang);
   }
 
-  // Event listener — delegasi ke document agar toggle di dalam modal juga bekerja
   document.addEventListener('click', e => {
     const btn = e.target.closest('.plang-btn');
     if (!btn) return;
-    e.stopPropagation(); // cegah klik menutup/membuka modal
+    e.stopPropagation();
     const lang = btn.dataset.lang;
     if (lang) setProjectLang(lang);
   });
 
-  // Restore dari localStorage (default: 'id')
   const savedProjectLang = localStorage.getItem('project-lang') || 'id';
   setProjectLang(savedProjectLang);
 });
