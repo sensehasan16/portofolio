@@ -280,6 +280,15 @@ document.addEventListener('DOMContentLoaded', () => {
       { src: "assets/images/k6.png", alt: "Data Pemeriksaan Pasien" },
       { src: "assets/images/k7.png", alt: "Form Tambah Pemeriksaan" },
       { src: "assets/images/k8.png", alt: "Detail & Riwayat Pemeriksaan" }
+    ],
+    sidifood: [
+      { src: "assets/images/food.png", alt: "Home Screen - Beranda SiDiFood" },
+      { src: "assets/images/food1.png", alt: "Pengaturan Target Kalori" },
+      { src: "assets/images/food2.png", alt: "Catat Makanan" },
+      { src: "assets/images/food3.png", alt: "Profil Saya" },
+      { src: "assets/images/food4.png", alt: "Alternatif Makanan" },
+      { src: "assets/images/food5.png", alt: "Produk Tersimpan" },
+      { src: "assets/images/food6.png", alt: "Bandingkan Produk" }
     ]
   };
 
