@@ -1459,13 +1459,13 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 56px;
+  height: 90px;
   pointer-events: none;
   background: linear-gradient(to top, rgba(8, 8, 8, 0.82) 0%, rgba(8, 8, 8, 0) 100%);
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding-bottom: 10px;
+  padding-bottom: 48px;
   opacity: 1;
   transition: opacity 0.3s ease;
   z-index: 6;
