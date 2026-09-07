@@ -936,7 +936,7 @@ body {
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   width: 100%;
 }
@@ -978,41 +978,48 @@ body {
   align-items: center;
   font-family: var(--font-mono), monospace;
   margin-bottom: 0.85rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8px;
+  overflow: hidden;
 }
 
 .dossier-meta-left {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .dossier-id {
   color: var(--accent);
   font-weight: 700;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
 }
 
 .dossier-role-pill {
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   color: #a0aec0;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 999px;
-  padding: 2px 8px;
+  padding: 2px 7px;
   background: rgba(255, 255, 255, 0.02);
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .dossier-spec {
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: #718096;
   text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* 2. Mockup frame */
@@ -2368,7 +2375,7 @@ body {
   }
 
   .projects-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 2.25rem;
   }
 
@@ -2487,6 +2494,7 @@ body {
   }
 
   .projects-grid {
+    grid-template-columns: 1fr;
     gap: 1.75rem;
   }
 
