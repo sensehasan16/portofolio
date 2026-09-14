@@ -672,7 +672,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       maurun_card_desc: 'Bantu orang cari & daftar event lari di seluruh Indonesia, lengkap sama dashboard admin buat ngatur event dan peserta.',
       klinik_card_desc: 'Dashboard admin buat ngatur data dokter, pasien, dan hasil pengecekan pasien.',
-      sidifood_card_desc: 'Aplikasi bantu atur pola makan — user bisa pilih target kalori harian sesuai kebutuhan, misalnya buat diet gula.',
+      sidifood_card_desc: 'Aplikasi bantu atur pola makan, user bisa pilih target kalori harian sesuai kebutuhan, misalnya buat diet gula.',
 
       label_my_role: 'Peran Saya',
       btn_github: 'Lihat Kode di GitHub',
