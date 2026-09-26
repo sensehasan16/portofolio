@@ -767,4 +767,169 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const savedProjectLang = localStorage.getItem('project-lang') || 'id';
   setProjectLang(savedProjectLang);
+
+  // ── Featured Carousel (Stacked Cards) ──
+  const fcStage = document.getElementById('fcStage');
+  const fcCounter = document.getElementById('fcCounter');
+
+  if (fcStage) {
+    const fcCards = fcStage.querySelectorAll('.fc-card');
+    const totalCards = fcCards.length;
+    let fcIndex = 0;
+    let fcAutoTimer = null;
+    const FC_AUTO_DELAY = 4000;
+
+    const projectNames = [
+      'Website Lari',
+      'Klinik Kesehatan',
+      'SiDiFood'
+    ];
+
+    function updateFeaturedCarousel() {
+      fcCards.forEach((card, i) => {
+        card.classList.remove('is-active', 'is-prev', 'is-next', 'is-hidden');
+
+        if (i === fcIndex) {
+          card.classList.add('is-active');
+        } else if (i === (fcIndex - 1 + totalCards) % totalCards) {
+          card.classList.add('is-prev');
+        } else if (i === (fcIndex + 1) % totalCards) {
+          card.classList.add('is-next');
+        } else {
+          card.classList.add('is-hidden');
+        }
+      });
+
+      // Update counter
+      if (fcCounter) {
+        const num = String(fcIndex + 1).padStart(3, '0');
+        fcCounter.textContent = `( ${num} )`;
+      }
+    }
+
+    function fcNext() {
+      fcIndex = (fcIndex + 1) % totalCards;
+      updateFeaturedCarousel();
+    }
+
+    function fcPrev() {
+      fcIndex = (fcIndex - 1 + totalCards) % totalCards;
+      updateFeaturedCarousel();
+    }
+
+    // Auto-play
+    function startFcAuto() {
+      stopFcAuto();
+      fcAutoTimer = setInterval(fcNext, FC_AUTO_DELAY);
+    }
+
+    function stopFcAuto() {
+      if (fcAutoTimer) {
+        clearInterval(fcAutoTimer);
+        fcAutoTimer = null;
+      }
+    }
+
+    // Pause auto on hover
+    const fcCarousel = document.getElementById('featuredCarousel');
+    if (fcCarousel) {
+      fcCarousel.addEventListener('mouseenter', stopFcAuto);
+      fcCarousel.addEventListener('mouseleave', startFcAuto);
+    }
+
+    // Mouse drag
+    let fcDragStartX = 0;
+    let fcIsDragging = false;
+
+    fcStage.addEventListener('mousedown', (e) => {
+      fcDragStartX = e.clientX;
+      fcIsDragging = true;
+      fcStage.classList.add('is-dragging');
+      stopFcAuto();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!fcIsDragging) return;
+      // Visual feedback could be added here
+    });
+
+    document.addEventListener('mouseup', (e) => {
+      if (!fcIsDragging) return;
+      fcIsDragging = false;
+      fcStage.classList.remove('is-dragging');
+
+      const deltaX = e.clientX - fcDragStartX;
+      const FC_THRESHOLD = 50;
+
+      if (deltaX < -FC_THRESHOLD) {
+        fcNext();
+      } else if (deltaX > FC_THRESHOLD) {
+        fcPrev();
+      }
+
+      startFcAuto();
+    });
+
+    // Touch swipe
+    let fcTouchStartX = 0;
+    let fcTouchStartY = 0;
+    let fcIsHorizontalSwipe = null;
+
+    fcStage.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) return;
+      fcTouchStartX = e.touches[0].clientX;
+      fcTouchStartY = e.touches[0].clientY;
+      fcIsHorizontalSwipe = null;
+      stopFcAuto();
+    }, { passive: true });
+
+    fcStage.addEventListener('touchmove', (e) => {
+      if (e.touches.length !== 1) return;
+      const dx = e.touches[0].clientX - fcTouchStartX;
+      const dy = e.touches[0].clientY - fcTouchStartY;
+
+      if (fcIsHorizontalSwipe === null) {
+        if (Math.abs(dx) > 8 || Math.abs(dy) > 8) {
+          fcIsHorizontalSwipe = Math.abs(dx) > Math.abs(dy);
+        }
+      }
+
+      if (fcIsHorizontalSwipe && e.cancelable) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    fcStage.addEventListener('touchend', (e) => {
+      if (fcIsHorizontalSwipe === true) {
+        const touchEndX = e.changedTouches[0] ? e.changedTouches[0].clientX : fcTouchStartX;
+        const deltaX = touchEndX - fcTouchStartX;
+        const FC_SWIPE_THRESHOLD = 40;
+
+        if (deltaX < -FC_SWIPE_THRESHOLD) {
+          fcNext();
+        } else if (deltaX > FC_SWIPE_THRESHOLD) {
+          fcPrev();
+        }
+      }
+      fcIsHorizontalSwipe = null;
+      startFcAuto();
+    }, { passive: true });
+
+    // Click on prev/next cards to navigate
+    fcCards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (card.classList.contains('is-prev')) {
+          e.preventDefault();
+          fcPrev();
+        } else if (card.classList.contains('is-next')) {
+          e.preventDefault();
+          fcNext();
+        }
+      });
+    });
+
+    // Initial state
+    updateFeaturedCarousel();
+    startFcAuto();
+  }
 });
