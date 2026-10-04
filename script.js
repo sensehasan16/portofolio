@@ -3,6 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const siteName = document.getElementById('siteName');
   const siteNav = document.getElementById('siteNav');
+  const mobileToggle = document.getElementById('mobileToggle') || document.querySelector('.mobile-toggle');
+  const navLinksContainer = document.getElementById('navLinks') || document.querySelector('.nav-links');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const mobileNavOverlay = document.getElementById('mobileNavOverlay');
 
   const NAV_HEIGHT = 72;
   const LOGO_SIZE = 22;
@@ -44,6 +48,14 @@ document.addEventListener('DOMContentLoaded', () => {
     siteName.style.letterSpacing = '-0.03em';
 
     const items = siteName.querySelectorAll('.giant-item');
+    const seps = siteName.querySelectorAll('.giant-sep');
+    items.forEach((item, idx) => {
+      if (idx > 0) item.style.display = 'inline-block';
+    });
+    seps.forEach(sep => {
+      sep.style.display = 'inline-block';
+    });
+
     if (items.length >= 2) {
       const rect0 = items[0].getBoundingClientRect();
       const rect1 = items[1].getBoundingClientRect();
@@ -90,10 +102,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     seps.forEach(sep => {
       sep.style.opacity = (0.4 * extraOpacity).toString();
+      sep.style.pointerEvents = 'none';
+      sep.style.display = extraOpacity <= 0.01 ? 'none' : 'inline-block';
     });
     items.forEach((item, idx) => {
       if (idx > 0) {
         item.style.opacity = extraOpacity.toString();
+        item.style.pointerEvents = 'none';
+        item.style.display = extraOpacity <= 0.01 ? 'none' : 'inline-block';
       }
     });
 
@@ -114,8 +130,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (siteNav) {
       const isScrolled = scrollY > 200;
       siteNav.classList.toggle('scrolled', isScrolled);
-      if (navLinksContainer && window.innerWidth > 768) {
-        navLinksContainer.classList.toggle('spread', !isScrolled);
+      if (navLinksContainer) {
+        if (window.innerWidth > 768) {
+          navLinksContainer.classList.toggle('spread', !isScrolled);
+        } else {
+          navLinksContainer.classList.remove('spread');
+        }
       }
     }
 
@@ -166,27 +186,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.reveal, .word-stagger').forEach(el => revealObserver.observe(el));
 
-  const mobileToggle = document.querySelector('.mobile-toggle');
-  const navLinksContainer = document.querySelector('.nav-links');
-  const navLinks = document.querySelectorAll('.nav-link');
-  const mobileNavOverlay = document.getElementById('mobileNavOverlay');
-
   function openMobileNav() {
+    if (!navLinksContainer || !mobileToggle) return;
     navLinksContainer.classList.add('active');
     mobileToggle.classList.add('active');
+    mobileToggle.setAttribute('aria-expanded', 'true');
     if (mobileNavOverlay) mobileNavOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
 
   function closeMobileNav() {
+    if (!navLinksContainer || !mobileToggle) return;
     navLinksContainer.classList.remove('active');
     mobileToggle.classList.remove('active');
+    mobileToggle.setAttribute('aria-expanded', 'false');
     if (mobileNavOverlay) mobileNavOverlay.classList.remove('active');
     document.body.style.overflow = '';
   }
 
   if (mobileToggle && navLinksContainer) {
-    mobileToggle.addEventListener('click', () => {
+    mobileToggle.setAttribute('aria-expanded', 'false');
+    mobileToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (navLinksContainer.classList.contains('active')) {
         closeMobileNav();
       } else {
@@ -195,8 +216,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        closeMobileNav();
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          const targetId = href.substring(1);
+          const targetEl = document.getElementById(targetId);
+
+          closeMobileNav();
+
+          if (targetEl) {
+            requestAnimationFrame(() => {
+              const navOffset = 70;
+              const elementPosition = targetEl.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.pageYOffset - navOffset;
+
+              window.scrollTo({
+                top: Math.max(0, offsetPosition),
+                behavior: 'smooth'
+              });
+
+              if (history.pushState) {
+                history.pushState(null, '', href);
+              }
+            });
+          }
+        } else {
+          closeMobileNav();
+        }
       });
     });
 
@@ -209,6 +256,20 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && navLinksContainer.classList.contains('active')) {
         closeMobileNav();
+      }
+    });
+  }
+
+  if (siteName) {
+    siteName.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeMobileNav();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      if (history.pushState) {
+        history.pushState(null, '', window.location.pathname);
       }
     });
   }
@@ -263,12 +324,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const projectImages = {
     websiteLari: [
-      { src: "assets/images/website_lari 3.png", alt: "Dashboard Admin" },
-      { src: "assets/images/website_lari 4.png", alt: "Form Pendaftaran" },
-      { src: "assets/images/website_lari 2.png", alt: "Halaman Event" },
+      { src: "assets/images/website_lari3.png", alt: "Dashboard Admin" },
+      { src: "assets/images/website_lari4.png", alt: "Form Pendaftaran" },
+      { src: "assets/images/website_lari2.png", alt: "Halaman Event" },
       { src: "assets/images/1122.png", alt: "Detail Event 1122" },
       { src: "assets/images/2211.png", alt: "Detail Event 2211" },
-      { src: "assets/images/website_lari 1.png", alt: "Landing Page" }
+      { src: "assets/images/website_lari1.png", alt: "Landing Page" }
     ],
     klinikKesehatan: [
       { src: "assets/images/kelinik_1.png", alt: "Login Portal Admin" },
